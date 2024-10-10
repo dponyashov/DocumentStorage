@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Удаление документа</h1>
+  <a href="{{ url_for('get_doc',doc_id=doc.id) }}">вернуться к документу</a>
+  <form method="post">
+    <p>Удалить документ {{ doc.title }}</p>
+    <input type="submit" value="Удалить">
+  </form>
+
+{% endblock %}

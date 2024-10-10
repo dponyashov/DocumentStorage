@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Сравнение версий документа</h1>
+  <a href="{{ url_for('get_doc', doc_id=doc.id) }}">Вернуться к документу</a>
+  {% if vers %}
+    <table>
+      <tr>
+        <td>
+          <p>Заголовок документа:</p>
+          <p>{{ doc.title }}</p>
+        </td>
+        <td>
+          <p>Заголовок версии:</p>
+          <p>{{ vers.title }}</p>
+        </td>
+        <td>
+          <p>Заголовок различия:</p>
+          <p>{{ diff.title }}</p>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="content">Содержание документа</label><br>
+          <textarea id="content" name="content" readonly>{{ doc.content }}</textarea>
+        </td>
+        <td>
+          <label for="content_vers">Содержание версии</label><br>
+          <textarea id="content_vers" name="content_vers" readonly>{{ vers.content }}</textarea>
+        </td>
+        <td>
+          <label for="content_diff">Содержание различия</label><br>
+          <textarea id="content_diff" name="content_diff" readonly>{{ diff.content }}</textarea>
+        </td>
+      </tr>
+    </table>
+  {% else %}
+    <p>Нет версий для документа, документ еще не изменялся</p>
+  {% endif %}
+
+{% endblock %}

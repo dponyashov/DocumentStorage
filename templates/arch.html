@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Просмотр версии от {{ arch.ts }}</h1>
+  <a href="{{ url_for('archiv_for_doc', doc_id=arch.id_doc) }}">вернуться к списку</a><br><br>
+  <p>Дата и время изменения: {{ arch.ts }}</p>
+  <p>Заголовок: {{ arch.title }}</p>
+  <label for="content">Содержание</label><br>
+  <textarea id="content" name="content" readonly="true">{{ arch.content }} </textarea><br>
+
+{% endblock %}

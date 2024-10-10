@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Список документов</h1>
+    <a href="{{ url_for('new_doc') }}">Добавить новый</a>
+    <ul>
+        {% for doc in docs %}
+            <li><a href="{{ url_for('get_doc', doc_id=doc.id) }}">{{ doc.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

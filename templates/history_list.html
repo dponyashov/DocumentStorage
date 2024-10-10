@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>История документа для {{ doc.title }}</h1>
+    <a href="{{ url_for('get_doc', doc_id=doc.id) }}">Вернуться к документу</a>
+    {% if archiv_list %}
+    <ul>
+        {% for arch_item in archiv_list %}
+            <li><a href="{{ url_for('get_archiv', arch_id=arch_item.id) }}">
+                {{ arch_item.ts }} - {{ arch_item.title }}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        <p>Нет версий для документа, документ еще не изменялся</p>
+    {% endif %}
+{% endblock %}

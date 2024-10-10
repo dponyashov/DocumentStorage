@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Новый документ</h1>
+  <a href="{{ url_for('docs') }}">вернуться к списку</a>
+  <form method="post">
+    <label for="title">Заголовок</label><br>
+    <input type="text" id="title" name="title"><br>
+    <label for="content">Содержание</label><br>
+    <textarea id="content" name="content"></textarea><br>
+    <input type="submit" value="Создать">
+  </form>
+{% endblock %}
