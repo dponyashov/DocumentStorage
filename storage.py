@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect
-import copy
 
-import DB
+# import DB
+import DB_ORM as DB
 from comparator import TextComparator, Differ
 
 app = Flask(__name__)
@@ -44,8 +44,8 @@ def compare_doc_minor(doc_id):
     titleComparator = TextComparator()
     contentComparator = TextComparator()
     if vers:
-        titleComparator = TextComparator(doc['title'], vers['title'])
-        contentComparator = TextComparator(doc['content'], vers['content'])
+        titleComparator = TextComparator(doc.title, vers.title)
+        contentComparator = TextComparator(doc.content, vers.content)
     diff = Differ(titleComparator.text_differences(), contentComparator.text_differences())
     return render_template('doc_compare.html', doc=doc, vers=vers, diff=diff)
 
@@ -53,12 +53,12 @@ def compare_doc_minor(doc_id):
 @app.route('/docs/<int:doc_id>/major')
 def compare_doc_major(doc_id):
     doc = DB.get_doc_by_id(doc_id)
-    vers = DB.get_version(doc_id, desc=True)
+    vers = DB.get_version(doc_id, last=True)
     titleComparator = TextComparator()
     contentComparator = TextComparator()
     if vers:
-        titleComparator = TextComparator(doc['title'], vers['title'])
-        contentComparator = TextComparator(doc['content'], vers['content'])
+        titleComparator = TextComparator(doc.title, vers.title)
+        contentComparator = TextComparator(doc.content, vers.content)
 
     diff = Differ(titleComparator.text_differences(), contentComparator.text_differences())
     return render_template('doc_compare.html', doc=doc, vers=vers, diff=diff)
@@ -88,5 +88,5 @@ def del_doc(doc_id):
     return render_template('doc_delete.html', doc=doc)
 
 if __name__ == '__main__':
-    DB.create_db()
+    # DB.create_db()
     app.run(debug=True)

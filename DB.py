@@ -109,5 +109,5 @@ def close_db(conn):
     conn.close()
 
 
-if __name__ =='__main_main':
+if __name__ =='__main__':
     create_db()
