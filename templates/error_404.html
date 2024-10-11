@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>404 - Ошибка!</h1>
+  <h2>Объект не найден!</h2>
+  {% if error %}
+    <p><strong>Описание:</strong></p>
+    <p>
+      {{ error }}
+    </p>
+  {% endif %}
+{% endblock %}
