@@ -20,23 +20,19 @@ csrf = CSRFProtect()
 csrf.init_app(app)
 
 
-def error_404(func):
+def error_exceptions(func):
     @wraps(func)
     def inner_func(*args, **kwargs):
         try:
             return func(*args, **kwargs)
         except NotFoundDocumentError as err:
             return render_template('error_404.html', error=str(err))
-    return inner_func
-
-def error_save(func):
-    @wraps(func)
-    def inner_func(*args, **kwargs):
-        try:
-            return func(*args, **kwargs)
         except SaveDocumentError as err:
             return render_template('error_save.html', error=str(err))
+        except Exception as err:
+            return render_template('error.html', error=str(err))
     return inner_func
+
 
 @app.route('/')
 @app.route('/docs')
@@ -46,8 +42,7 @@ def docs():
 
 
 @app.route('/docs/new', methods=['GET', 'POST'])
-@error_save
-@error_404
+@error_exceptions
 def new_doc():
     if request.method == 'POST':
         title = request.form['title']
@@ -59,7 +54,7 @@ def new_doc():
 
 
 @app.route('/docs/archiv/<int:doc_id>')
-@error_404
+@error_exceptions
 def archiv_for_doc(doc_id):
     doc = DB.get_doc_by_id(doc_id)
     archiv_list = DB.get_arch_list_by_doc(doc_id)
@@ -67,14 +62,14 @@ def archiv_for_doc(doc_id):
 
 
 @app.route('/docs/archiv/<int:arch_id>/detail')
-@error_404
+@error_exceptions
 def get_archiv(arch_id):
     arch = DB.get_arch_by_id(arch_id)
     return render_template('arch.html', arch=arch)
 
 
 @app.route('/docs/<int:doc_id>/minor')
-@error_404
+@error_exceptions
 def compare_doc_minor(doc_id):
     doc = DB.get_doc_by_id(doc_id)
     vers = DB.get_version(doc_id)
@@ -89,7 +84,7 @@ def compare_doc_minor(doc_id):
 
 
 @app.route('/docs/<int:doc_id>/major')
-@error_404
+@error_exceptions
 def compare_doc_major(doc_id):
     doc = DB.get_doc_by_id(doc_id)
     vers = DB.get_version(doc_id, last=True)
@@ -105,7 +100,7 @@ def compare_doc_major(doc_id):
 
 
 @app.route('/docs/<int:doc_id>', methods=['GET'])
-@error_404
+@error_exceptions
 def get_doc(doc_id):
     doc = DB.get_doc_by_id(doc_id)
     return render_template('doc.html', doc=doc)
@@ -113,8 +108,7 @@ def get_doc(doc_id):
 
 
 @app.route('/docs/<int:doc_id>/edit', methods=['GET', 'POST'])
-@error_404
-@error_save
+@error_exceptions
 def update_doc(doc_id):
     if request.method == 'POST':
         title = request.form['title']
@@ -129,7 +123,7 @@ def update_doc(doc_id):
 
 
 @app.route('/docs/<int:doc_id>/delete', methods=['GET', 'POST'])
-@error_404
+@error_exceptions
 def del_doc(doc_id):
     if request.method == 'POST':
         DB.delete_doc(doc_id)
