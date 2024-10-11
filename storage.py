@@ -34,7 +34,7 @@ def error_save(func):
     def inner_func(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except NotFoundDocumentError as err:
+        except SaveDocumentError as err:
             return render_template('error_save.html', error=str(err))
     return inner_func
 
