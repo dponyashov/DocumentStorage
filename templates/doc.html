@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Изменения документа</h1>
+  <h1>Просмотр документа</h1>
   <a href="{{ url_for('docs') }}">вернуться к списку</a>
-  <form method="post">
-    <label for="title">Заголовок</label><br>
-    <input type="text" id="title" name="title" value="{{ doc.title }}"><br>
-    <label for="content">Содержание</label><br>
-    <textarea id="content" name="content">{{ doc.content }}</textarea><br>
-    <input type="submit" value="Сохранить">
-  </form>
+  <div>
+    <p><strong>Заголовок:</strong></p>
+    <p>{{ doc.title }}</p><br>
+    <p><strong>Содержание:</strong></p>
+    <p>{{ doc.content }}</p><br><br>
+  </div>
+  <a href="{{ url_for('update_doc', doc_id=doc.id) }}">Изменить документ</a><br><br>
   <a href="{{ url_for('archiv_for_doc', doc_id=doc.id) }}">Просмотреть историю</a><br><br>
 
   <a href="{{ url_for('compare_doc_major', doc_id=doc.id) }}">Сравнить с последней</a><br>

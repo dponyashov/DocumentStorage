@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if doc %}
+    <h1>Изменения документа</h1>
+    <a href="{{ url_for('get_doc', doc_id=doc.id) }}">вернуться к документу</a>
+  {% else %}
+    <h1>Новый документ</h1>
+    <a href="{{ url_for('docs') }}">вернуться к списку</a>
+  {% endif %}
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label for="title">Заголовок</label><br>
+    <input type="text" id="title" name="title"  value="{% if doc %} {{ doc.title }} {% endif %}"><br>
+    <label for="content">Содержание</label><br>
+    <textarea id="content" name="content">{% if doc %} {{ doc.content }} {% endif %}</textarea><br>
+    <input type="submit" value="Сохранить">
+  </form>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Ошибка!</h1>
+  {% if error %}
+    <p><strong>Описание:</strong></p>
+    <p>
+      {{ error }}
+    </p>
+  {% endif %}
+{% endblock %}
