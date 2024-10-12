@@ -36,21 +36,30 @@ def error_exceptions(func):
 
 @app.route('/')
 @app.route('/docs')
+@error_exceptions
 def docs():
     docs=DB.get_doc_list()
     return render_template('doc_list.html', docs=docs)
 
 
 @app.route('/docs/new', methods=['GET', 'POST'])
+@app.route('/docs/<int:doc_id>/edit', methods=['GET', 'POST'])
 @error_exceptions
-def new_doc():
+def save_doc(doc_id=0):
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
-        DB.save_new_doc(title, content)
-        return redirect(url_for('docs'))
+        if doc_id > 0:
+            DB.save_doc(doc_id, title, content)
+            return redirect(url_for('get_doc', doc_id=doc_id))
+        else:
+            DB.save_new_doc(title, content)
+            return redirect(url_for('docs'))
 
-    return render_template('doc_edit.html')
+    doc = None
+    if doc_id > 0:
+        doc = DB.get_doc_by_id(doc_id)
+    return render_template('doc_edit.html', doc=doc)
 
 
 @app.route('/docs/archiv/<int:doc_id>')
@@ -104,21 +113,6 @@ def compare_doc_major(doc_id):
 def get_doc(doc_id):
     doc = DB.get_doc_by_id(doc_id)
     return render_template('doc.html', doc=doc)
-
-
-
-@app.route('/docs/<int:doc_id>/edit', methods=['GET', 'POST'])
-@error_exceptions
-def update_doc(doc_id):
-    if request.method == 'POST':
-        title = request.form['title']
-        content = request.form['content']
-        DB.save_doc(doc_id, title, content)
-        doc = DB.get_doc_by_id(doc_id)
-        return redirect(url_for('get_doc', doc_id=doc_id))
-
-    doc = DB.get_doc_by_id(doc_id)
-    return render_template('doc_edit.html', doc=doc)
 
 
 
