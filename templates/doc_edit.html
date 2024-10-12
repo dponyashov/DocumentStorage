@@ -11,9 +11,9 @@
   <form method="post">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <label for="title">Заголовок</label><br>
-    <input type="text" id="title" name="title"  value="{% if doc %} {{ doc.title }} {% endif %}"><br>
+    <input type="text" id="title" name="title"  value="{% if doc %}{{ doc.title }}{% endif %}"><br>
     <label for="content">Содержание</label><br>
-    <textarea id="content" name="content">{% if doc %} {{ doc.content }} {% endif %}</textarea><br>
+    <textarea id="content" name="content">{% if doc %}{{ doc.content }}{% endif %}</textarea><br>
     <input type="submit" value="Сохранить">
   </form>
 

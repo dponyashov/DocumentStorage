@@ -31,10 +31,7 @@ def save_new_doc(title, content):
         raise SaveDocumentError(err)
 
 def save_doc(id_doc, title, content):
-    try:
-        updateDoc = session.query(Document).filter_by(id=id_doc).one()
-    except Exception as err:
-        raise NotFoundDocumentError(err)
+    updateDoc = get_doc_by_id(id_doc)
 
     try:
         newArch = Archiv()
