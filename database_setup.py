@@ -12,7 +12,7 @@ engine = create_engine(db_config.DB_URL)
 class Base(DeclarativeBase):
     pass
 
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
 # Base.metadata.bind = engine
 
 # Models
