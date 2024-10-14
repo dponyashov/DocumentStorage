@@ -2,8 +2,8 @@ from sqlalchemy import desc
 from sqlalchemy.orm import sessionmaker
 from datetime import datetime
 
-from database_setup import engine
-from models import Document, Archiv
+from database_setup import engine, Document, Archiv
+# from models import Document, Archiv
 from exceptions import NotFoundDocumentError, SaveDocumentError
 
 DBSession = sessionmaker(bind=engine)
